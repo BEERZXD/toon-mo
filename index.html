@@ -8,6 +8,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
+    /* 🔹 Normalize root font-size so rem is consistent everywhere */
+    html {
+      font-size: 16px; /* default desktop */
+    }
+
+    @media (max-width: 1024px) {
+      html { font-size: 15px; } /* tablets */
+    }
+
+    @media (max-width: 768px) {
+      html { font-size: 14px; } /* large mobile */
+    }
+
+    @media (max-width: 480px) {
+      html { font-size: 13px; } /* small mobile portrait */
+    }
+
+    @media (max-height: 500px) {
+      html { font-size: 13px; } /* mobile landscape (short height) */
+    }
+
     body, html {
       margin: 0;
       padding: 0;
@@ -35,7 +56,7 @@
       transition: opacity 1s ease-in-out;
     }
 
-    /* First background fade-in on load */
+    /* First background fade-in */
     .slideshow img:first-child {
       animation: bgFadeIn 1.2s ease-out forwards;
     }
@@ -156,51 +177,12 @@
       100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* Responsive Design */
-
-    /* Large tablets / small laptops */
-    @media (max-width: 1024px) {
-      h1 { font-size: 2.8rem; }
-      p { font-size: 1.4rem; }
-      .btn-instagram { font-size: 1.2rem; padding: 10px 20px; }
-      .footer-logo { width: 120px; }
-      .copyright { font-size: 1.1rem; }
-    }
-
-    /* Tablets and large mobiles */
-    @media (max-width: 768px) {
-      h1 { font-size: 2.2rem; }
-      p { font-size: 1.2rem; }
-      .btn-instagram { font-size: 1.1rem; padding: 8px 18px; }
-      .footer-logo { width: 100px; }
-      .copyright { font-size: 1rem; }
-    }
-
-    /* Small mobile portrait */
-    @media (max-width: 480px) {
-      h1 { font-size: 1.8rem; }
-      p { font-size: 1rem; }
-      .btn-instagram { font-size: 1rem; padding: 6px 16px; border-radius: 40px; }
-      .footer-logo { width: 90px; }
-      .copyright { font-size: 0.85rem; }
-    }
-
-    /* Mobile landscape (short height screens) */
+    /* Landscape mobile special fix */
     @media (max-height: 500px) {
       .content {
         justify-content: flex-start;
         padding-top: 30px;
       }
-      h1 { font-size: 1.6rem; }
-      p { font-size: 0.9rem; }
-      .btn-instagram {
-        font-size: 0.9rem;
-        padding: 6px 14px;
-        border-radius: 35px;
-        margin-top: 12px;
-      }
-      .footer-logo { width: 80px; }
-      .copyright { font-size: 0.75rem; }
       footer { bottom: 10px; }
     }
   </style>

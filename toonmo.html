@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toon-Mo | ตูนโม๊ะ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Kanit', sans-serif;
+      overflow: hidden;
+    }
+
+    /* Slideshow container */
+    .slideshow {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -2;
+    }
+
+    .slideshow img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+
+    /* Dark overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: -1;
+    }
+
+    /* Content */
+    .content {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 12px;
+      text-shadow: 0px 2px 8px rgba(0,0,0,0.7);
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin: 4px 0;
+      line-height: 1.4;
+      text-shadow: 0px 2px 6px rgba(0,0,0,0.7);
+    }
+
+    .btn-instagram {
+      display: inline-block;
+      padding: 12px 24px;
+      background: #E1306C;
+      color: white;
+      text-decoration: none;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      transition: background 0.3s;
+      margin-top: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    .btn-instagram:hover {
+      background: #c72a5b;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 0.9rem;
+      color: #ddd;
+      text-shadow: 0px 2px 6px rgba(0,0,0,0.7);
+    }
+  </style>
+</head>
+<body>
+  <!-- Slideshow with unlimited images -->
+  <div class="slideshow">
+    <img src="images/1.jpg" alt="Background 1">
+    <img src="images/2.jpg" alt="Background 2">
+    <img src="images/3.jpg" alt="Background 3">
+    <img src="images/4.jpg" alt="Background 4">
+    <img src="images/5.jpg" alt="Background 5">
+    <img src="images/6.jpg" alt="Background 6">
+    <img src="images/7.jpg" alt="Background 7">
+  </div>
+
+  <div class="overlay"></div>
+
+  <div class="content">
+    <h1>Toon-Mo | ตูนโม๊ะ</h1>
+    <p>รับเอาคิววอคอิน รับเอาโต๊ะ ร้าน The Moon Ladkrabang!</p>
+    <p>สนใจติดต่อสอบถามเพิ่มเติมและเรทราคาได้ที่ Instagram</p>
+    <a href="https://instagram.com/beerznakub" target="_blank" class="btn-instagram">บริการผ่าน Instagram</a>
+    <footer>© 2025 Toon-Mo</footer>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slideshow img');
+    let current = 0;
+
+    function showSlide(index) {
+      slides.forEach((img, i) => {
+        img.style.opacity = (i === index) ? 1 : 0;
+      });
+    }
+
+    function nextSlide() {
+      current = (current + 1) % slides.length;
+      showSlide(current);
+    }
+
+    // Start slideshow
+    showSlide(current);
+    setInterval(nextSlide, 5000); // change every 5s
+  </script>
+</body>
+</html>

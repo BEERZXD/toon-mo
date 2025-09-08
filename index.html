@@ -35,7 +35,7 @@
       transition: opacity 1s ease-in-out;
     }
 
-    /* First background fade-in */
+    /* First background fade-in on load */
     .slideshow img:first-child {
       animation: bgFadeIn 1.2s ease-out forwards;
     }
@@ -69,7 +69,7 @@
     }
 
     h1 {
-      font-size: clamp(24px, 4vw, 56px);
+      font-size: 3.5rem;
       margin-bottom: 12px;
       text-shadow: 0px 2px 8px rgba(0,0,0,0.7);
       opacity: 0;
@@ -78,7 +78,7 @@
     }
 
     p {
-      font-size: clamp(14px, 2.2vw, 28px);
+      font-size: 1.8rem;
       margin: 4px 0;
       line-height: 1.4;
       text-shadow: 0px 2px 6px rgba(0,0,0,0.7);
@@ -92,11 +92,11 @@
 
     .btn-instagram {
       display: inline-block;
-      padding: clamp(6px, 1.2vw, 12px) clamp(14px, 2vw, 24px);
+      padding: 12px 24px;
       background: #E1306C;
       color: white;
       text-decoration: none;
-      font-size: clamp(14px, 2vw, 24px);
+      font-size: 1.5rem;
       border-radius: 50px;
       transition: background 0.3s, transform 0.2s;
       margin-top: 18px;
@@ -127,14 +127,14 @@
     }
 
     .footer-logo {
-      width: clamp(80px, 12vw, 150px);
+      width: 150px;
       height: auto;
       margin-bottom: 8px;
       filter: drop-shadow(0px 2px 6px rgba(0,0,0,0.6));
     }
 
     .copyright {
-      font-size: clamp(12px, 1.6vw, 21px);
+      font-size: 1.3rem;
     }
 
     /* Animations */
@@ -156,12 +156,51 @@
       100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* Landscape mobile fix */
+    /* Responsive Design */
+
+    /* Large tablets / small laptops */
+    @media (max-width: 1024px) {
+      h1 { font-size: 2.8rem; }
+      p { font-size: 1.4rem; }
+      .btn-instagram { font-size: 1.2rem; padding: 10px 20px; }
+      .footer-logo { width: 120px; }
+      .copyright { font-size: 1.1rem; }
+    }
+
+    /* Tablets and large mobiles */
+    @media (max-width: 768px) {
+      h1 { font-size: 2.2rem; }
+      p { font-size: 1.2rem; }
+      .btn-instagram { font-size: 1.1rem; padding: 8px 18px; }
+      .footer-logo { width: 100px; }
+      .copyright { font-size: 1rem; }
+    }
+
+    /* Small mobile portrait */
+    @media (max-width: 480px) {
+      h1 { font-size: 1.8rem; }
+      p { font-size: 1rem; }
+      .btn-instagram { font-size: 1rem; padding: 6px 16px; border-radius: 40px; }
+      .footer-logo { width: 90px; }
+      .copyright { font-size: 0.85rem; }
+    }
+
+    /* Mobile landscape (short height screens) */
     @media (max-height: 500px) {
       .content {
         justify-content: flex-start;
         padding-top: 30px;
       }
+      h1 { font-size: 1.6rem; }
+      p { font-size: 0.9rem; }
+      .btn-instagram {
+        font-size: 0.9rem;
+        padding: 6px 14px;
+        border-radius: 35px;
+        margin-top: 12px;
+      }
+      .footer-logo { width: 80px; }
+      .copyright { font-size: 0.75rem; }
       footer { bottom: 10px; }
     }
   </style>

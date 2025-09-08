@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Toon-Mo | ตูนโม๊ะ</title>
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
     body, html {
       margin: 0;
@@ -30,7 +32,17 @@
       height: 100%;
       object-fit: cover;
       opacity: 0;
-      transition: opacity 1.5s ease-in-out;
+      transition: opacity 1s ease-in-out;
+    }
+
+    /* First background fade-in on load */
+    .slideshow img:first-child {
+      animation: bgFadeIn 1.2s ease-out forwards;
+    }
+
+    @keyframes bgFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     /* Dark overlay */
@@ -57,17 +69,26 @@
     }
 
     h1 {
-      font-size: 3rem;
+      font-size: 3.5rem;
       margin-bottom: 12px;
       text-shadow: 0px 2px 8px rgba(0,0,0,0.7);
+      opacity: 0;
+      transform: translateY(-15px);
+      animation: fadeSlideDown 0.6s ease-out forwards;
     }
 
     p {
-      font-size: 1.2rem;
+      font-size: 1.8rem;
       margin: 4px 0;
       line-height: 1.4;
       text-shadow: 0px 2px 6px rgba(0,0,0,0.7);
+      opacity: 0;
+      transform: translateY(15px);
+      animation: fadeSlideUp 0.6s ease-out forwards;
     }
+
+    p:nth-of-type(1) { animation-delay: 0.2s; }
+    p:nth-of-type(2) { animation-delay: 0.4s; }
 
     .btn-instagram {
       display: inline-block;
@@ -75,26 +96,93 @@
       background: #E1306C;
       color: white;
       text-decoration: none;
-      font-size: 1.1rem;
+      font-size: 1.5rem;
       border-radius: 50px;
-      transition: background 0.3s;
+      transition: background 0.3s, transform 0.2s;
       margin-top: 18px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      opacity: 0;
+      transform: scale(0.9);
+      animation: fadeScaleUp 0.6s ease-out forwards;
+      animation-delay: 0.6s;
     }
 
     .btn-instagram:hover {
       background: #c72a5b;
+      transform: scale(1.05);
     }
 
     footer {
       position: absolute;
       bottom: 20px;
-      font-size: 0.9rem;
+      width: 100%;
+      text-align: center;
       color: #ddd;
       text-shadow: 0px 2px 6px rgba(0,0,0,0.7);
+      padding: 0 10px;
+      opacity: 0;
+      transform: translateY(15px);
+      animation: fadeBounceUp 0.6s ease-out forwards;
+      animation-delay: 0.8s;
+    }
+
+    .footer-logo {
+      width: 150px;
+      height: auto;
+      margin-bottom: 8px;
+      filter: drop-shadow(0px 2px 6px rgba(0,0,0,0.6));
+    }
+
+    .copyright {
+      font-size: 1.3rem;
+    }
+
+    /* Animations */
+    @keyframes fadeSlideDown {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeSlideUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeScaleUp {
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeBounceUp {
+      0% { opacity: 0; transform: translateY(15px); }
+      70% { opacity: 1; transform: translateY(-3px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      h1 { font-size: 2.8rem; }
+      p { font-size: 1.4rem; }
+      .btn-instagram { font-size: 1.2rem; padding: 10px 20px; }
+      .footer-logo { width: 120px; }
+      .copyright { font-size: 1.1rem; }
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.2rem; }
+      p { font-size: 1.2rem; }
+      .btn-instagram { font-size: 1.1rem; padding: 8px 18px; }
+      .footer-logo { width: 100px; }
+      .copyright { font-size: 1rem; }
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.8rem; }
+      p { font-size: 1rem; }
+      .btn-instagram { font-size: 1rem; padding: 6px 16px; border-radius: 40px; }
+      .footer-logo { width: 90px; }
+      .copyright { font-size: 0.85rem; }
     }
   </style>
 </head>
+
 <body>
   <!-- Slideshow with unlimited images -->
   <div class="slideshow">
@@ -114,7 +202,11 @@
     <p>รับเอาคิววอคอิน รับเอาโต๊ะ ร้าน The Moon Ladkrabang!</p>
     <p>สนใจติดต่อสอบถามเพิ่มเติมและเรทราคาได้ที่ Instagram</p>
     <a href="https://instagram.com/beerznakub" target="_blank" class="btn-instagram">บริการผ่าน Instagram</a>
-    <footer>© 2025 Toon-Mo</footer>
+
+    <footer>
+      <img src="images/themoon-logo.svg" alt="The Moon Logo" class="footer-logo">
+      <p class="copyright">© 2025 Toon-Mo</p>
+    </footer>
   </div>
 
   <script>
@@ -132,9 +224,11 @@
       showSlide(current);
     }
 
-    // Start slideshow
-    showSlide(current);
-    setInterval(nextSlide, 5000); // change every 5s
+    // Show first slide with fade-in (already animated via CSS)
+    slides[0].style.opacity = 1;
+
+    // Start slideshow after 5s
+    setInterval(nextSlide, 5000);
   </script>
 </body>
 </html>

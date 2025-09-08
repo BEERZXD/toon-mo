@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Toon-Mo | ตูนโม๊ะ</title>
 
-  <!-- Favicon (Moon Icon from GitHub CDN) -->
+  <!-- Favicon (Moon Icon) -->
   <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/1f319.png">
 
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@
       height: 100%;
       top: 0;
       left: 0;
-      z-index: -2;
+      z-index: -3;
     }
 
     .slideshow img {
@@ -39,7 +39,6 @@
       transition: opacity 1s ease-in-out;
     }
 
-    /* First background fade-in on load */
     .slideshow img:first-child {
       animation: bgFadeIn 1.2s ease-out forwards;
     }
@@ -49,7 +48,36 @@
       to { opacity: 1; }
     }
 
-    /* Dark overlay */
+    /* Floating moon icons */
+    .floating-moons {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    .moon {
+      position: absolute;
+      font-size: 3rem;
+      opacity: 0.15;
+      filter: grayscale(100%); /* black & white */
+      animation: floatMoon linear infinite;
+    }
+
+    @keyframes floatMoon {
+      from {
+        transform: translateY(100vh) rotate(0deg);
+      }
+      to {
+        transform: translateY(-10vh) rotate(360deg);
+      }
+    }
+
+    /* Overlay */
     .overlay {
       position: fixed;
       top: 0;
@@ -161,8 +189,6 @@
     }
 
     /* Responsive Design */
-
-    /* Large tablets / small laptops */
     @media (max-width: 1024px) {
       h1 { font-size: 2.8rem; }
       p { font-size: 1.4rem; }
@@ -171,7 +197,6 @@
       .copyright { font-size: 1.1rem; }
     }
 
-    /* Tablets and large mobiles */
     @media (max-width: 768px) {
       h1 { font-size: 2.2rem; }
       p { font-size: 1.2rem; }
@@ -180,7 +205,6 @@
       .copyright { font-size: 1rem; }
     }
 
-    /* Small mobile portrait */
     @media (max-width: 480px) {
       h1 { font-size: 1.8rem; }
       p { font-size: 1rem; }
@@ -189,7 +213,6 @@
       .copyright { font-size: 0.85rem; }
     }
 
-    /* Mobile landscape (short height screens) */
     @media (max-height: 500px) {
       .content {
         justify-content: flex-start;
@@ -211,7 +234,7 @@
 </head>
 
 <body>
-  <!-- Slideshow with unlimited images -->
+  <!-- Slideshow -->
   <div class="slideshow">
     <img src="images/1.jpg" alt="Background 1">
     <img src="images/2.jpg" alt="Background 2">
@@ -220,6 +243,19 @@
     <img src="images/5.jpg" alt="Background 5">
     <img src="images/6.jpg" alt="Background 6">
     <img src="images/7.jpg" alt="Background 7">
+  </div>
+
+  <!-- Floating moons (only left & right sides) -->
+  <div class="floating-moons">
+    <!-- Left side moons -->
+    <span class="moon" style="left: 5%; animation-duration: 18s; font-size: 2.5rem;">🌙</span>
+    <span class="moon" style="left: 8%; animation-duration: 26s; font-size: 3rem;">🌙</span>
+    <span class="moon" style="left: 12%; animation-duration: 22s; font-size: 2rem;">🌙</span>
+
+    <!-- Right side moons -->
+    <span class="moon" style="right: 5%; animation-duration: 20s; font-size: 2.8rem;">🌙</span>
+    <span class="moon" style="right: 8%; animation-duration: 24s; font-size: 3.2rem;">🌙</span>
+    <span class="moon" style="right: 12%; animation-duration: 30s; font-size: 2.4rem;">🌙</span>
   </div>
 
   <div class="overlay"></div>
@@ -251,10 +287,7 @@
       showSlide(current);
     }
 
-    // Show first slide with fade-in (already animated via CSS)
     slides[0].style.opacity = 1;
-
-    // Start slideshow after 5s
     setInterval(nextSlide, 5000);
   </script>
 </body>

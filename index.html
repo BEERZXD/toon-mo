@@ -157,6 +157,8 @@
     }
 
     /* Responsive Design */
+
+    /* Large tablets / small laptops */
     @media (max-width: 1024px) {
       h1 { font-size: 2.8rem; }
       p { font-size: 1.4rem; }
@@ -165,6 +167,7 @@
       .copyright { font-size: 1.1rem; }
     }
 
+    /* Tablets and large mobiles */
     @media (max-width: 768px) {
       h1 { font-size: 2.2rem; }
       p { font-size: 1.2rem; }
@@ -173,12 +176,32 @@
       .copyright { font-size: 1rem; }
     }
 
+    /* Small mobile portrait */
     @media (max-width: 480px) {
       h1 { font-size: 1.8rem; }
       p { font-size: 1rem; }
       .btn-instagram { font-size: 1rem; padding: 6px 16px; border-radius: 40px; }
       .footer-logo { width: 90px; }
       .copyright { font-size: 0.85rem; }
+    }
+
+    /* Mobile landscape (short height screens) */
+    @media (max-height: 500px) {
+      .content {
+        justify-content: flex-start;
+        padding-top: 30px;
+      }
+      h1 { font-size: 1.6rem; }
+      p { font-size: 0.9rem; }
+      .btn-instagram {
+        font-size: 0.9rem;
+        padding: 6px 14px;
+        border-radius: 35px;
+        margin-top: 12px;
+      }
+      .footer-logo { width: 80px; }
+      .copyright { font-size: 0.75rem; }
+      footer { bottom: 10px; }
     }
   </style>
 </head>

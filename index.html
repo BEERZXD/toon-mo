@@ -17,8 +17,158 @@
       padding: 0;
       height: 100%;
       font-family: 'Kanit', sans-serif;
-      overflow: hidden;
+      overflow-x: hidden;
     }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      z-index: 10;
+      background: rgba(10, 10, 10, 0.25);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-sizing: border-box;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .header-logo img {
+      height: 35px;
+      width: auto;
+      filter: drop-shadow(0px 1px 3px rgba(0,0,0,0.5));
+    }
+
+    header nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.2rem; /* <-- HEADER TEXT SIZE INCREASED */
+      margin-left: 25px;
+      text-shadow: 0px 1px 4px rgba(0,0,0,0.6);
+      transition: color 0.3s ease;
+      font-weight: 400;
+    }
+
+    header nav a:hover {
+      color: #E1306C;
+    }
+
+    /* Menu Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      /* Animation properties */
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .modal-overlay.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      position: relative;
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+      text-align: center;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      /* Animation properties */
+      transform: scale(0.9);
+      opacity: 0;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    .modal-overlay.is-open .modal-content {
+      transform: scale(1);
+      opacity: 1;
+    }
+    
+    .modal-content img {
+      max-width: 100%;
+      max-height: calc(90vh - 120px); /* Adjust based on padding and button height */
+      border-radius: 8px;
+      object-fit: contain;
+    }
+
+    .modal-close-btn {
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        background: #fff;
+        color: #333;
+        border: none;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+        transition: transform 0.2s, background-color 0.2s;
+    }
+
+    .modal-close-btn:hover {
+        background-color: #eee;
+        transform: scale(1.1);
+    }
+
+    .modal-actions {
+      margin-top: 15px;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .modal-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      border-radius: 50px;
+      transition: background 0.3s, transform 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+    .download-btn {
+        background: #3498db;
+    }
+    .download-btn:hover {
+        background: #2980b9;
+        transform: scale(1.05);
+    }
+    .close-action-btn {
+        background: #95a5a6;
+    }
+    .close-action-btn:hover {
+        background: #7f8c8d;
+        transform: scale(1.05);
+    }
+
 
     /* Slideshow container */
     .slideshow {
@@ -98,6 +248,7 @@
       text-align: center;
       color: #fff;
       padding: 20px;
+      box-sizing: border-box;
     }
 
     h1 {
@@ -162,6 +313,7 @@
       color: #ddd;
       text-shadow: 0px 2px 6px rgba(0,0,0,0.7);
       padding: 0 10px;
+      box-sizing: border-box;
       opacity: 0;
       transform: translateY(15px);
       animation: fadeBounceUp 0.6s ease-out forwards;
@@ -181,7 +333,7 @@
       margin: 4px 0 5px;
       text-shadow: 0px 2px 4px rgba(0,0,0,0.6);
       line-height: 1.4;
-      padding: 0 10px; /* add padding so text won’t touch screen edges */
+      padding: 0 10px;
     }
 
     .copyright {
@@ -192,15 +344,12 @@
     @keyframes fadeSlideDown {
       to { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes fadeSlideUp {
       to { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes fadeScaleUp {
       to { opacity: 1; transform: scale(1); }
     }
-
     @keyframes fadeBounceUp {
       0% { opacity: 0; transform: translateY(15px); }
       70% { opacity: 1; transform: translateY(-3px); }
@@ -209,37 +358,49 @@
 
     /* Responsive Design */
     @media (max-width: 1024px) {
+      .title-logo { width: 300px; }
       p { font-size: 1.4rem; }
       .btn-instagram { font-size: 1.2rem; padding: 10px 20px; }
       .footer-logo { width: 120px; }
       .footer-desc { font-size: 0.9rem; }
       .copyright { font-size: 1.1rem; }
-      .title-logo { width: 300px; }
     }
 
     @media (max-width: 768px) {
+      header { padding: 10px 20px; }
+      .header-logo img { height: 30px; }
+      header nav a { font-size: 1.1rem; margin-left: 15px; } /* <-- HEADER TEXT SIZE */
+
+      .title-logo { width: 240px; }
       p { font-size: 1.2rem; }
       .btn-instagram { font-size: 1.1rem; padding: 8px 18px; }
       .footer-logo { width: 100px; }
       .footer-desc { font-size: 0.85rem; }
       .copyright { font-size: 1rem; }
-      .title-logo { width: 240px; }
     }
 
     @media (max-width: 480px) {
+      header { padding: 10px 15px; }
+      .header-logo img { height: 28px; }
+      header nav a { font-size: 1rem; margin-left: 12px; } /* <-- HEADER TEXT SIZE */
+      
+      .modal-content { padding: 15px; }
+      .modal-actions { flex-direction: column; }
+
+      .title-logo { width: 200px; }
       p { font-size: 1rem; }
       .btn-instagram { font-size: 1rem; padding: 6px 16px; border-radius: 40px; }
       .footer-logo { width: 90px; }
       .footer-desc { font-size: 0.8rem; }
       .copyright { font-size: 0.85rem; }
-      .title-logo { width: 200px; }
     }
 
     @media (max-height: 500px) {
       .content {
         justify-content: flex-start;
-        padding-top: 30px;
+        padding-top: 80px;
       }
+      .title-logo { width: 160px; }
       p { font-size: 0.9rem; }
       .btn-instagram {
         font-size: 0.9rem;
@@ -251,12 +412,36 @@
       .footer-desc { font-size: 0.75rem; }
       .copyright { font-size: 0.75rem; }
       footer { bottom: 10px; }
-      .title-logo { width: 160px; }
     }
   </style>
 </head>
 
 <body>
+  <!-- Header -->
+  <header>
+    <div class="header-logo">
+      <a href="#"><img src="images/toonmo-logo.svg" alt="Toon-Mo Logo"></a>
+    </div>
+    <nav>
+      <a href="#" id="openMenuBtn">เมนูเครื่องดื่ม</a>
+      <a href="https://themoonhouse59.com/" target="_blank">จองโต๊ะ</a>
+      <a href="https://instagram.com/_toon.mo/" target="_blank">ติดต่อเรา</a>
+    </nav>
+  </header>
+
+  <!-- Menu Modal -->
+  <div class="modal-overlay" id="menuModal">
+    <div class="modal-content">
+        <button class="modal-close-btn" aria-label="Close menu">&times;</button>
+        <img src="images/themoon_menu.JPG" alt="The Moon Drink Menu">
+        <div class="modal-actions">
+            <a href="images/themoon_menu.JPG" download="themoon_menu.JPG" class="modal-btn download-btn">บันทึกภาพ</a>
+            <button class="modal-btn close-action-btn">ปิด</button>
+        </div>
+    </div>
+  </div>
+
+
   <!-- Slideshow -->
   <div class="slideshow">
     <img src="images/1.jpg" alt="Background 1">
@@ -268,14 +453,11 @@
     <img src="images/7.jpg" alt="Background 7">
   </div>
 
-  <!-- Floating moons (only left & right sides) -->
+  <!-- Floating moons -->
   <div class="floating-moons">
-    <!-- Left side moons -->
     <span class="moon" style="left: 5%; animation-duration: 18s; font-size: 2.5rem;">🌙</span>
     <span class="moon" style="left: 8%; animation-duration: 26s; font-size: 3rem;">🌙</span>
     <span class="moon" style="left: 12%; animation-duration: 22s; font-size: 2rem;">🌙</span>
-
-    <!-- Right side moons -->
     <span class="moon" style="right: 5%; animation-duration: 20s; font-size: 2.8rem;">🌙</span>
     <span class="moon" style="right: 8%; animation-duration: 24s; font-size: 3.2rem;">🌙</span>
     <span class="moon" style="right: 12%; animation-duration: 30s; font-size: 2.4rem;">🌙</span>
@@ -299,6 +481,7 @@
   </div>
 
   <script>
+    // --- Slideshow Logic ---
     const slides = document.querySelectorAll('.slideshow img');
     let current = 0;
 
@@ -315,6 +498,43 @@
 
     slides[0].style.opacity = 1;
     setInterval(nextSlide, 5000);
+
+    // --- Modal Logic ---
+    const openMenuBtn = document.getElementById('openMenuBtn');
+    const menuModal = document.getElementById('menuModal');
+    const closeModalBtns = document.querySelectorAll('.modal-close-btn, .close-action-btn');
+
+    // Open modal
+    openMenuBtn.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent default link behavior
+        menuModal.classList.add('is-open');
+    });
+
+    // Function to close modal
+    const closeModal = () => {
+        menuModal.classList.remove('is-open');
+    }
+
+    // Close modal with buttons
+    closeModalBtns.forEach(btn => {
+        btn.addEventListener('click', closeModal);
+    });
+
+    // Close modal by clicking on the overlay
+    menuModal.addEventListener('click', (event) => {
+        if (event.target === menuModal) {
+            closeModal();
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && menuModal.classList.contains('is-open')) {
+            closeModal();
+        }
+    });
+
   </script>
 </body>
 </html>
+

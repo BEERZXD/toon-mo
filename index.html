@@ -64,7 +64,7 @@
       position: absolute;
       font-size: 3rem;
       opacity: 0.15;
-      filter: grayscale(100%); /* black & white */
+      filter: grayscale(100%);
       animation: floatMoon linear infinite;
     }
 
@@ -101,12 +101,22 @@
     }
 
     h1 {
-      font-size: 3.5rem;
       margin-bottom: 12px;
-      text-shadow: 0px 2px 8px rgba(0,0,0,0.7);
+    }
+
+    /* Main glowing logo */
+    .title-logo {
+      width: 380px;
+      height: auto;
       opacity: 0;
       transform: translateY(-15px);
-      animation: fadeSlideDown 0.6s ease-out forwards;
+      animation: fadeSlideDown 0.6s ease-out forwards,
+                 glowPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { filter: drop-shadow(0px 0px 12px rgba(255,255,255,0.7)); }
+      50% { filter: drop-shadow(0px 0px 28px rgba(255,255,255,1)); }
     }
 
     p {
@@ -161,8 +171,17 @@
     .footer-logo {
       width: 150px;
       height: auto;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       filter: drop-shadow(0px 2px 6px rgba(0,0,0,0.6));
+    }
+
+    .footer-desc {
+      font-size: clamp(0.75rem, 1.2vw, 1.35rem);
+      color: #ccc;
+      margin: 4px 0 5px;
+      text-shadow: 0px 2px 4px rgba(0,0,0,0.6);
+      line-height: 1.4;
+      padding: 0 10px; /* add padding so text won’t touch screen edges */
     }
 
     .copyright {
@@ -190,27 +209,30 @@
 
     /* Responsive Design */
     @media (max-width: 1024px) {
-      h1 { font-size: 2.6rem; }
       p { font-size: 1.4rem; }
       .btn-instagram { font-size: 1.2rem; padding: 10px 20px; }
-      .footer-logo { width: 110px; }
+      .footer-logo { width: 120px; }
+      .footer-desc { font-size: 0.9rem; }
       .copyright { font-size: 1.1rem; }
+      .title-logo { width: 300px; }
     }
 
     @media (max-width: 768px) {
-      h1 { font-size: 2.2rem; }
       p { font-size: 1.2rem; }
       .btn-instagram { font-size: 1.1rem; padding: 8px 18px; }
       .footer-logo { width: 100px; }
+      .footer-desc { font-size: 0.85rem; }
       .copyright { font-size: 1rem; }
+      .title-logo { width: 240px; }
     }
 
     @media (max-width: 480px) {
-      h1 { font-size: 1.8rem; }
       p { font-size: 1rem; }
       .btn-instagram { font-size: 1rem; padding: 6px 16px; border-radius: 40px; }
       .footer-logo { width: 90px; }
+      .footer-desc { font-size: 0.8rem; }
       .copyright { font-size: 0.85rem; }
+      .title-logo { width: 200px; }
     }
 
     @media (max-height: 500px) {
@@ -218,7 +240,6 @@
         justify-content: flex-start;
         padding-top: 30px;
       }
-      h1 { font-size: 1.6rem; }
       p { font-size: 0.9rem; }
       .btn-instagram {
         font-size: 0.9rem;
@@ -227,8 +248,10 @@
         margin-top: 12px;
       }
       .footer-logo { width: 80px; }
+      .footer-desc { font-size: 0.75rem; }
       .copyright { font-size: 0.75rem; }
       footer { bottom: 10px; }
+      .title-logo { width: 160px; }
     }
   </style>
 </head>
@@ -261,13 +284,16 @@
   <div class="overlay"></div>
 
   <div class="content">
-    <h1>Toon-Mo | ตูนโม๊ะ</h1>
+    <h1>
+      <img src="images/toonmo-logo.svg" alt="Toon-Mo Logo" class="title-logo">
+    </h1>
     <p>รับเอาคิววอคอิน รับเอาโต๊ะ ร้าน The Moon Ladkrabang!</p>
     <p>สนใจติดต่อสอบถามเพิ่มเติมและเรทราคาได้ที่ Instagram</p>
-    <a href="https://www.instagram.com/_toon.mo/" target="_blank" class="btn-instagram">บริการผ่าน Instagram</a>
+    <a href="https://instagram.com/_toon.mo/" target="_blank" class="btn-instagram">บริการผ่าน Instagram</a>
 
     <footer>
       <img src="images/themoon-logo.svg" alt="The Moon Logo" class="footer-logo">
+      <p class="footer-desc">Toon-Mo ไม่ได้มีส่วนเกี่ยวข้องโดยตรงกับร้าน The Moon เป็นเพียงบริการรับเอาโต๊ะและคิววอคอิน ไม่สนับสนุนการขายคิวจองโต๊ะต่อทุกกรณี</p>
       <p class="copyright">© 2025 Toon-Mo</p>
     </footer>
   </div>
@@ -292,5 +318,3 @@
   </script>
 </body>
 </html>
-
-

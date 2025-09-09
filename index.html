@@ -29,7 +29,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 30px;
+      padding: clamp(10px, 2vh, 15px) clamp(15px, 4vw, 30px);
       z-index: 10;
       background: rgba(10, 10, 10, 0.25);
       backdrop-filter: blur(8px);
@@ -39,7 +39,7 @@
     }
 
     .header-logo img {
-      height: 35px;
+      height: clamp(28px, 5vw, 35px);
       width: auto;
       filter: drop-shadow(0px 1px 3px rgba(0,0,0,0.5));
     }
@@ -47,8 +47,8 @@
     header nav a {
       color: #fff;
       text-decoration: none;
-      font-size: 1.2rem; /* <-- HEADER TEXT SIZE INCREASED */
-      margin-left: 25px;
+      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+      margin-left: clamp(12px, 3vw, 25px);
       text-shadow: 0px 1px 4px rgba(0,0,0,0.6);
       transition: color 0.3s ease;
       font-weight: 400;
@@ -56,6 +56,40 @@
 
     header nav a:hover {
       color: #E1306C;
+    }
+
+    .hamburger-menu {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 2rem;
+      height: 2rem;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 20;
+    }
+
+    .hamburger-menu span {
+      width: 2rem;
+      height: 0.25rem;
+      background: white;
+      border-radius: 10px;
+      transition: all 0.3s linear;
+      position: relative;
+      transform-origin: 1px;
+    }
+    
+    .hamburger-menu.is-active span:nth-child(1) {
+      transform: rotate(45deg);
+    }
+    .hamburger-menu.is-active span:nth-child(2) {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    .hamburger-menu.is-active span:nth-child(3) {
+      transform: rotate(-45deg);
     }
 
     /* Menu Modal */
@@ -367,9 +401,40 @@
     }
 
     @media (max-width: 768px) {
-      header { padding: 10px 20px; }
-      .header-logo img { height: 30px; }
-      header nav a { font-size: 1.1rem; margin-left: 15px; } /* <-- HEADER TEXT SIZE */
+      header nav {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: 250px;
+        background: rgba(20, 20, 20, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+        padding-top: 6rem;
+        z-index: 15;
+      }
+
+      header nav.is-active {
+        transform: translateX(0);
+      }
+      
+      header nav a {
+        padding: 1.5rem 0;
+        width: 100%;
+        text-align: center;
+        margin: 0 !important;
+        font-size: 1.2rem !important;
+      }
+
+      .hamburger-menu {
+        display: flex;
+      }
 
       .title-logo { width: 240px; }
       p { font-size: 1.2rem; }
@@ -380,10 +445,6 @@
     }
 
     @media (max-width: 480px) {
-      header { padding: 10px 15px; }
-      .header-logo img { height: 28px; }
-      header nav a { font-size: 1rem; margin-left: 12px; } /* <-- HEADER TEXT SIZE */
-      
       .modal-content { padding: 15px; }
       .modal-actions { flex-direction: column; }
 
@@ -422,11 +483,16 @@
     <div class="header-logo">
       <a href="#"><img src="images/toonmo-logo.svg" alt="Toon-Mo Logo"></a>
     </div>
-    <nav>
+    <nav id="main-nav">
       <a href="#" id="openMenuBtn">เมนูเครื่องดื่ม</a>
       <a href="https://themoonhouse59.com/" target="_blank">จองโต๊ะ</a>
       <a href="https://instagram.com/_toon.mo/" target="_blank">ติดต่อเรา</a>
     </nav>
+    <button class="hamburger-menu" id="hamburger-menu" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </header>
 
   <!-- Menu Modal -->
@@ -435,8 +501,8 @@
         <button class="modal-close-btn" aria-label="Close menu">&times;</button>
         <img src="images/themoon_menu.JPG" alt="The Moon Drink Menu">
         <div class="modal-actions">
-            <a href="images/themoon_menu.JPG" download="themoon_menu.JPG" class="modal-btn download-btn">บันทึกภาพ</a>
-            <button class="modal-btn close-action-btn">ปิด</button>
+            <a href="images/themoon_menu.JPG" download="themoon_menu.JPG" class="modal-btn download-btn">Download</a>
+            <button class="modal-btn close-action-btn">Close</button>
         </div>
     </div>
   </div>
@@ -532,6 +598,25 @@
         if (event.key === 'Escape' && menuModal.classList.contains('is-open')) {
             closeModal();
         }
+    });
+
+    // --- Hamburger Menu Logic ---
+    const hamburgerBtn = document.getElementById('hamburger-menu');
+    const mainNav = document.getElementById('main-nav');
+    const navLinks = document.querySelectorAll('#main-nav a');
+
+    hamburgerBtn.addEventListener('click', () => {
+      mainNav.classList.toggle('is-active');
+      hamburgerBtn.classList.toggle('is-active');
+    });
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (mainNav.classList.contains('is-active')) {
+          mainNav.classList.remove('is-active');
+          hamburgerBtn.classList.remove('is-active');
+        }
+      });
     });
 
   </script>

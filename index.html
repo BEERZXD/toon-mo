@@ -539,6 +539,94 @@
             color: #888;
             font-size: 0.8rem;
         }
+        
+        /* --- CREDITS SLIDESHOW STYLES --- */
+        .credits-section {
+            color: #fff;
+            padding: 60px 20px;
+            text-align: center;
+            background-color: #0c0c0c; /* Slightly different from body for separation */
+        }
+        .credits-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        .slider-container {
+            max-width: 900px;
+            width: 90%;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden; /* This creates the sliding window effect */
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+        .slider-wrapper {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        .slide img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 65vh;
+            display: block;
+            border-radius: 10px;
+        }
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        .slider-btn:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .prev-btn {
+            left: 10px;
+        }
+        .next-btn {
+            right: 10px;
+        }
+        .slider-nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .nav-dot {
+            height: 12px;
+            width: 12px;
+            margin: 0 5px;
+            background-color: #555;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .nav-dot.active {
+            background-color: #E1306C;
+        }
+
 
         /* Footer */
         footer {
@@ -613,6 +701,12 @@
         }
 
         /* Responsive Design */
+        @media (min-width: 769px) {
+            .slide img {
+                max-height: 85vh; /* Larger size for desktop */
+            }
+        }
+
         @media (max-width: 1024px) {
             .title-logo {
                 width: 300px;
@@ -701,7 +795,7 @@
                 font-size: 1rem;
             }
 
-            .pricing-section h2 {
+            .pricing-section h2, .credits-section h2 {
                 font-size: 2rem;
             }
 
@@ -873,6 +967,20 @@
             </div>
         </section>
 
+        <!-- CREDITS SLIDESHOW SECTION START -->
+        <section class="credits-section">
+            <h2>เครดิตจากลูกค้า</h2>
+            <div class="slider-container">
+                <div class="slider-wrapper">
+                    <!-- Images will be dynamically loaded here by JavaScript -->
+                </div>
+                <button class="slider-btn prev-btn">&#10094;</button>
+                <button class="slider-btn next-btn">&#10095;</button>
+            </div>
+            <div class="slider-nav"></div>
+        </section>
+        <!-- CREDITS SLIDESHOW SECTION END -->
+
     </main>
 
     <footer>
@@ -986,7 +1094,131 @@
                 }
             });
         });
+
+        // --- DYNAMIC CREDITS SLIDESHOW LOGIC ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const sliderWrapper = document.querySelector('.slider-wrapper');
+            if (!sliderWrapper) return; // Exit if the slider element isn't on the page
+
+            // --- Configuration ---
+            const imageFolderPath = 'credits/';
+            const imageBaseName = ''; // Expects names like 'image1.jpg', 'image2.jpg'
+            const imageExtension = '.jpg'; // Change if you use .png, .webp, etc.
+            let imageCounter = 1;
+
+            const tryLoadImage = () => {
+                const imageUrl = `${imageFolderPath}${imageBaseName}${imageCounter}${imageExtension}`;
+                const img = new Image();
+                img.src = imageUrl;
+
+                img.onload = function() {
+                    // Image loaded successfully
+                    const slideDiv = document.createElement('div');
+                    slideDiv.className = 'slide';
+                    const slideImg = document.createElement('img');
+                    slideImg.src = imageUrl;
+                    slideImg.alt = `Credit Image ${imageCounter}`;
+                    slideDiv.appendChild(slideImg);
+                    sliderWrapper.appendChild(slideDiv);
+
+                    // Try to load the next image
+                    imageCounter++;
+                    tryLoadImage();
+                };
+
+                img.onerror = function() {
+                    // Image failed to load, which means we've found all of them.
+                    // Now, initialize the slider controls.
+                    if (imageCounter > 1) { // Only initialize if at least one image was loaded
+                        initializeSlider();
+                    }
+                };
+            };
+
+            const initializeSlider = () => {
+                const sliderContainer = document.querySelector('.slider-container');
+                const slides = document.querySelectorAll('.slide');
+                const prevBtn = document.querySelector('.prev-btn');
+                const nextBtn = document.querySelector('.next-btn');
+                const sliderNav = document.querySelector('.slider-nav');
+                
+                let currentIndex = 0;
+                const totalSlides = slides.length;
+                let autoSlideInterval;
+
+                // Create navigation dots
+                for (let i = 0; i < totalSlides; i++) {
+                    const dot = document.createElement('div');
+                    dot.classList.add('nav-dot');
+                    dot.addEventListener('click', () => {
+                        goToSlide(i);
+                        resetAutoSlideTimer(); // Reset timer on dot click
+                    });
+                    sliderNav.appendChild(dot);
+                }
+                const navDots = document.querySelectorAll('.nav-dot');
+
+                const goToSlide = (slideIndex) => {
+                    currentIndex = slideIndex;
+                    sliderWrapper.style.transform = 'translateX(' + (-currentIndex * 100) + '%)';
+                    updateNav();
+                };
+                
+                const updateNav = () => {
+                    navDots.forEach((dot, index) => {
+                        dot.classList.toggle('active', index === currentIndex);
+                    });
+                };
+
+                const next = () => {
+                    currentIndex = (currentIndex + 1) % totalSlides;
+                    goToSlide(currentIndex);
+                };
+
+                const prev = () => {
+                    currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+                    goToSlide(currentIndex);
+                };
+
+                // Event listeners for next and previous buttons
+                nextBtn.addEventListener('click', () => {
+                    next();
+                    resetAutoSlideTimer();
+                });
+
+                prevBtn.addEventListener('click', () => {
+                    prev();
+                    resetAutoSlideTimer();
+                });
+                
+                // Autoplay functionality
+                const startAutoSlide = () => {
+                    autoSlideInterval = setInterval(next, 5000); // Slide every 5 seconds
+                };
+                
+                const stopAutoSlide = () => {
+                    clearInterval(autoSlideInterval);
+                };
+
+                const resetAutoSlideTimer = () => {
+                    stopAutoSlide();
+                    startAutoSlide();
+                };
+
+                sliderContainer.addEventListener('mouseenter', stopAutoSlide);
+                sliderContainer.addEventListener('mouseleave', startAutoSlide);
+
+                // Initialize to the first slide and start autoplay
+                goToSlide(0);
+                startAutoSlide();
+            };
+
+            // Start the process
+            tryLoadImage();
+        });
+
     </script>
 </body>
 
 </html>
+
